@@ -10,6 +10,21 @@
         return content;
     }
 
+    var range = "";
+    function createTextContainer(root) {
+        var ele = createElement(root, "div", "editor_container");
+        ele['contentEditable'] = "true";
+        ele.onclick = function (e) {
+            range = window.getSelection().getRangeAt(0);
+            if (document.queryCommandState('bold') == false) {
+                menus.B.classList.remove('active');
+            }
+            else {
+                menus.B.classList.add('active');
+            }
+        };
+    }
+
     var menus = {};
     function createToolBar(root) {
         var toolbar = createElement(root, "div", "toolbar");
@@ -23,6 +38,9 @@
             toggleMenuStatus(e.target);
         });
         var B = createToolBarMenu(toolbar, 'B', function (e) {
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
             document.execCommand("bold", false, null);
             toggleMenuStatus(e.target);
         });
@@ -57,19 +75,6 @@
         else {
             node.classList.add('active');
         }
-    }
-
-    function createTextContainer(root) {
-        var ele = createElement(root, "div", "editor_container");
-        ele['contentEditable'] = "true";
-        ele.onclick = function (e) {
-            if (document.queryCommandState('bold') == false) {
-                menus.B.classList.remove('active');
-            }
-            else {
-                menus.B.classList.add('active');
-            }
-        };
     }
 
     window.onload = function () {

@@ -1,5 +1,5 @@
 import { createElement } from './util'
-
+import { range } from './textContainer'
 let menus:any = {}
 
 function createToolBar(root:Element){
@@ -13,6 +13,9 @@ function createToolBar(root:Element){
         toggleMenuStatus(e.target)
     })
     let B = createToolBarMenu(toolbar,'B',(e) =>{
+        let selection = window.getSelection()
+        selection.removeAllRanges()
+        selection.addRange(range)
         document.execCommand("bold", false, null)
         toggleMenuStatus(e.target)
     })
